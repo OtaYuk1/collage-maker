@@ -1,0 +1,285 @@
+:root {
+  color-scheme: light;
+  --bg: #fffaf0;
+  --panel-bg: #ffffff;
+  --border: #f5deb3;
+  --text: #33393d;
+  --muted: #708090;
+  --accent: #64c6c7;
+  --accent-soft: rgba(100, 198, 199, 0.14);
+  --highlight: #f6de7d;
+  --danger: #e0483e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.app-header {
+  padding: 1.5rem 1rem 1rem;
+  text-align: center;
+}
+
+.app-header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.4rem;
+}
+
+.app-header .sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+main {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.panel h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+}
+
+.section-lead {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* --- dropzone / thumbnails --- */
+
+.dropzone {
+  border: 2px dashed var(--border);
+  border-radius: 10px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.dropzone:hover,
+.dropzone:focus-visible,
+.dropzone.dragover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.count-label {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.limit-message {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--danger);
+}
+
+.thumb-list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 0.5rem;
+}
+
+.thumb-item {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--border);
+  cursor: grab;
+  background: var(--bg);
+}
+
+.thumb-item.dragging {
+  opacity: 0.4;
+}
+
+.thumb-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.thumb-remove {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(51, 57, 61, 0.65);
+  color: #fff;
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* --- pattern picker --- */
+
+.pattern-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.pattern-thumb {
+  position: relative;
+  width: 46px;
+  aspect-ratio: 9 / 16;
+  padding: 0;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.pattern-thumb.selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+.pattern-thumb-cell {
+  position: absolute;
+  background: var(--accent);
+  opacity: 0.5;
+  border: 1px solid var(--panel-bg);
+}
+
+.pattern-thumb.selected .pattern-thumb-cell {
+  opacity: 0.85;
+}
+
+/* --- collage preview --- */
+
+.canvas-wrap {
+  width: min(100%, 320px);
+  aspect-ratio: 9 / 16;
+  margin: 0 auto;
+  position: relative;
+  background: var(--bg);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.collage {
+  position: absolute;
+  inset: 0;
+}
+
+.cell {
+  position: absolute;
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+  background: var(--border);
+}
+
+.cell.dragging {
+  cursor: grabbing;
+}
+
+.cell.swap-source {
+  z-index: 20;
+  pointer-events: none;
+  box-shadow: 0 10px 28px rgba(51, 57, 61, 0.35);
+  opacity: 0.92;
+}
+
+.cell.swap-target {
+  outline: 3px solid var(--highlight);
+  outline-offset: -3px;
+}
+
+.cell img {
+  position: absolute;
+  user-select: none;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.hint {
+  margin: 0.6rem 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* --- decoration / export --- */
+
+.decoration-controls,
+.export-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  align-items: center;
+}
+
+.decoration-controls label,
+.export-controls label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  color: var(--muted);
+  gap: 0.25rem;
+}
+
+.checkbox-label {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 0.4rem !important;
+}
+
+.export-controls button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.export-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.app-footer {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.75rem;
+}

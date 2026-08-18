@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>写真コラージュ作成</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="app-header">
+  <h1>写真コラージュ作成</h1>
+  <p class="sub">画像はこのブラウザ上で処理されます。サーバーへのアップロードは一切行われません。</p>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>1. 画像を選ぶ(最大<span id="max-count-label"></span>枚)</h2>
+    <div id="dropzone" class="dropzone" tabindex="0">
+      <p>ここに画像をドラッグ&ドロップ<br>またはクリックして選択</p>
+      <input type="file" id="file-input" accept="image/*" multiple hidden>
+    </div>
+    <p id="image-count" class="count-label">0 / 15 枚</p>
+    <p id="limit-message" class="limit-message" hidden></p>
+    <ul id="thumb-list" class="thumb-list"></ul>
+  </section>
+
+  <section class="panel">
+    <h2>2. レイアウト・トリミング</h2>
+    <p class="section-lead">配置パターンを選ぶ</p>
+    <div id="pattern-picker" class="pattern-picker" role="list" aria-label="レイアウトパターン"></div>
+    <div id="canvas-wrap" class="canvas-wrap">
+      <div id="collage" class="collage"></div>
+    </div>
+    <p class="hint">
+      セル内の画像はドラッグで位置調整、ホイール/ピンチで拡大縮小できます。<br>
+      長押ししてから動かすと、他のセルと入れ替えられます。
+    </p>
+  </section>
+
+  <section class="panel">
+    <h2>3. 装飾(任意)</h2>
+    <div class="decoration-controls">
+      <label>セル間の余白
+        <input type="range" id="gap-range" min="0" max="40" value="0" step="1">
+      </label>
+      <label>背景色(余白部分の色にもなります)
+        <input type="color" id="bg-color" value="#ffffff">
+      </label>
+      <label class="checkbox-label">
+        <input type="checkbox" id="rounded-toggle">
+        角丸にする
+      </label>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>4. 書き出し</h2>
+    <div class="export-controls">
+      <label>形式
+        <select id="format-select">
+          <option value="png">PNG</option>
+          <option value="jpeg">JPEG</option>
+        </select>
+      </label>
+      <label id="quality-label" hidden>画質
+        <input type="range" id="quality-range" min="0.1" max="1" step="0.05" value="0.92">
+      </label>
+      <button id="download-btn" type="button" disabled>ダウンロード</button>
+    </div>
+  </section>
+</main>
+
+<footer class="app-footer">
+  <p>すべての処理はこのブラウザ上で完結します。画像や生成したコラージュがネットワークへ送信されることはありません。</p>
+</footer>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
