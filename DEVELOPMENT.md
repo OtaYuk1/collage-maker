@@ -59,9 +59,9 @@ ratio (width ÷ height) of each cell is kept within limited bounds:
   the allowed range on the "too wide" side is kept more generous (i.e. wide is
   preferred over tall for the same degree of "extreme").
 - Within these bounds, only column counts that fit are used to split a given
-  photo count into rows, and multiple row-order variations are generated to
-  increase the number of available patterns (1 to 6 variations depending on
-  photo count).
+  photo count into rows, and every distinct row-order permutation of that
+  split is generated as a separate pattern (the number of variations depends
+  on the photo count, and can range from a single pattern up to a few dozen).
 
 See the comment at the top of `public/js/layouts.js` and `ROW_PATTERNS` for the
 exact formulas and bounds.

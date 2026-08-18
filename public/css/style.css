@@ -150,6 +150,8 @@ main {
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-bottom: 0.75rem;
+  max-height: 220px;
+  overflow-y: auto;
 }
 
 .pattern-thumb {
