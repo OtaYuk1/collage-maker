@@ -16,6 +16,7 @@ const canvasWrap = $("canvas-wrap");
 const collageEl = $("collage");
 const gapRange = $("gap-range");
 const bgColorInput = $("bg-color");
+const bgColorHexInput = $("bg-color-hex");
 const roundedToggle = $("rounded-toggle");
 const formatSelect = $("format-select");
 const qualityLabel = $("quality-label");
@@ -267,9 +268,33 @@ gapRange.addEventListener("input", () => {
   decoration.gapPx = Number(gapRange.value);
   layoutCells();
 });
+const HEX_COLOR_RE = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i;
+
+function normalizeHexColor(value) {
+  const withHash = value.trim().startsWith("#") ? value.trim() : `#${value.trim()}`;
+  if (!HEX_COLOR_RE.test(withHash)) return null;
+  if (withHash.length === 4) {
+    const [, r, g, b] = withHash;
+    return `#${r}${r}${g}${g}${b}${b}`.toLowerCase();
+  }
+  return withHash.toLowerCase();
+}
+
 bgColorInput.addEventListener("input", () => {
   decoration.bgColor = bgColorInput.value;
+  bgColorHexInput.value = bgColorInput.value;
   canvasWrap.style.background = decoration.bgColor;
+});
+bgColorHexInput.addEventListener("input", () => {
+  const normalized = normalizeHexColor(bgColorHexInput.value);
+  if (!normalized) return;
+  decoration.bgColor = normalized;
+  bgColorInput.value = normalized;
+  canvasWrap.style.background = normalized;
+});
+bgColorHexInput.addEventListener("blur", () => {
+  // 入力内容を確定値(#rrggbb)に正規化する。無効な入力は直前の有効な色に戻す
+  bgColorHexInput.value = bgColorInput.value;
 });
 roundedToggle.addEventListener("change", () => {
   decoration.rounded = roundedToggle.checked;
